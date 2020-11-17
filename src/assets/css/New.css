@@ -48,8 +48,9 @@ input {
 	padding-left: 6%;
 }
 .number-input {
-	width: 20%;
-	height: 40%;
+	width: 40%;
+	height: 30%;
+	font-size: 1em;
 }
 
 .new-image-container {

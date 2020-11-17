@@ -65,6 +65,7 @@ const New = () => {
 					<p>Prix</p>
 					<input
 						required
+						step='.01'
 						type='number'
 						className='number-input'
 						name='price'
@@ -112,10 +113,10 @@ const New = () => {
 									ref={register}
 									type='checkbox'
 									name='tags'
-									value='Vetement'
+									value='Plaid'
 									className='checkbox'
 								/>
-								<label htmlFor='topDown'>Hauts et bas</label>
+								<label htmlFor='topDown'>Plaide</label>
 							</div>
 							<div className='new-tag-input-container'>
 								<input
@@ -135,7 +136,7 @@ const New = () => {
 									value='Gants'
 									className='checkbox'
 								/>
-								<label htmlFor='gants'>Gants</label>
+								<label htmlFor='gants'>Gants et mitaines</label>
 							</div>
 						</div>
 						<div className='new-tags-column'>
