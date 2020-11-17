@@ -116,7 +116,7 @@ const New = () => {
 									value='Plaid'
 									className='checkbox'
 								/>
-								<label htmlFor='topDown'>Plaide</label>
+								<label htmlFor='topDown'>Plaid</label>
 							</div>
 							<div className='new-tag-input-container'>
 								<input
