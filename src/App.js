@@ -10,6 +10,11 @@ import Homepage from './Containers/Homepage';
 import All from './Containers/All';
 import New from './Containers/New';
 
+// Icones
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faEye, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+library.add(faEye, faTrashAlt);
+
 function App() {
 	return (
 		<div className='App'>
