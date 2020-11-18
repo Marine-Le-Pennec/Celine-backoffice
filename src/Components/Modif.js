@@ -1,48 +1,49 @@
 import React, { useState } from 'react';
 // css
-import '../assets/css/New.css';
+import '../assets/css/Modif.css';
 
 // Axios
 import axios from 'axios';
-
-// Router
-import { useHistory } from 'react-router-dom';
-
 // Form
 import { useForm } from 'react-hook-form';
 
+// useLocation
+import { useLocation, useHistory } from 'react-router-dom';
+
 // img
-import borderLeft from '../assets/img/deco_left.png';
 import file from '../assets/img/file.png';
 
-const New = () => {
+const Modif = () => {
+	let location = useLocation();
+
+	let creation = location.state.creation;
+
 	const [image, setImage] = useState();
 
-	// submit form
 	const { register, handleSubmit } = useForm();
+	let id = creation._id;
 
 	const onSubmit = async (data, e) => {
 		e.preventDefault();
 
 		const formData = new FormData();
+
 		formData.append('title', data.title);
-		formData.append('tags', data.tags);
-		formData.append('fabrics', data.fabrics);
-		formData.append('colors', data.colors);
-		formData.append('price', data.price);
+		formData.append('title', data.tags);
+		formData.append('title', data.fabrics);
+		formData.append('title', data.colors);
+		formData.append('title', data.price);
 		formData.append('picture', data.picture[0]);
 		try {
-			const response = await axios.post(
-				'https://squiddy-shop-api.herokuapp.com/annonce',
-				// 'http://localhost:3010/annonce',
+			const response = await axios.patch(
+				`https://squiddy-shop-api.herokuapp.com/annonce/${id}`,
+				// `http://localhost:3010/annonce/${id}`,
+
 				formData
 			);
-
 			if (response.status === 200) {
-				alert('Nouvelle création ajoutée !');
-				history.push('/');
-			} else {
-				alert('Veuillez compléter tous les champs');
+				alert('Création modifiée !');
+				history.push('/annonces');
 			}
 		} catch (error) {
 			console.error(error);
@@ -52,35 +53,40 @@ const New = () => {
 	const history = useHistory();
 
 	return (
-		<div className='new-wrapper'>
-			<div className='new-img-decoration-container'>
-				<img src={borderLeft} alt='left border' />
+		<div className='modif-wrapper'>
+			<div className='modif-img-decoration-container'>
+				<img src={creation.picture.secure_url} alt='crea pic' />
 			</div>
-			<form className='new-inputs-section' onSubmit={handleSubmit(onSubmit)}>
-				<div className='new-inputs-container'>
+			<form className='modif-inputs-section' onSubmit={handleSubmit(onSubmit)}>
+				<div className='modif-inputs-container'>
 					<p>Titre</p>
-					<input required name='title' ref={register} />
+					<input name='title' placeholder={creation.title} ref={register} />
 				</div>
-				<div className='new-inputs-container'>
+				<div className='modif-inputs-container'>
 					<p>Prix</p>
 					<input
-						required
 						step='.01'
 						type='number'
 						className='number-input'
+						placeholder={creation.price}
 						name='price'
 						ref={register}
 					/>
 				</div>
-				<div className='new-inputs-container'>
+				<div className='modif-inputs-container'>
 					<p>Matière</p>
-					<input name='fabrics' ref={register} />
+					<input name='fabrics' ref={register} placeholder={creation.fabrics} />
 				</div>
-				<div className='new-inputs-container'>
+				<div className='modif-inputs-container'>
 					<p>Couleurs</p>
-					<input type='text' name='colors' ref={register} />
+					<input
+						type='text'
+						name='colors'
+						ref={register}
+						placeholder={creation.colors}
+					/>
 				</div>
-				<div className='new-image-container'>
+				<div className='modif-image-container'>
 					<p>Image</p>
 
 					<label htmlFor='file-input'>
@@ -104,11 +110,14 @@ const New = () => {
 						Image ajoutée !
 					</div>
 				</div>
-				<div className='new-tags-section'>
+				<div className='modif-tags-section'>
 					<p>Tags</p>
-					<div className='new-tags-container'>
-						<div className='new-tags-column'>
-							<div className='new-tag-input-container'>
+					{creation.tags.map((tag, i) => {
+						return <span key={i}>{tag}</span>;
+					})}
+					<div className='modif-tags-container'>
+						<div className='modif-tags-column'>
+							<div className='modif-tag-input-container'>
 								<input
 									ref={register}
 									type='checkbox'
@@ -118,7 +127,7 @@ const New = () => {
 								/>
 								<label htmlFor='topDown'>Plaid</label>
 							</div>
-							<div className='new-tag-input-container'>
+							<div className='modif-tag-input-container'>
 								<input
 									type='checkbox'
 									name='tags'
@@ -128,7 +137,7 @@ const New = () => {
 								/>
 								<label htmlFor='echarpe'>Écharpe</label>
 							</div>
-							<div className='new-tag-input-container'>
+							<div className='modif-tag-input-container'>
 								<input
 									type='checkbox'
 									ref={register}
@@ -139,8 +148,8 @@ const New = () => {
 								<label htmlFor='gants'>Gants et mitaines</label>
 							</div>
 						</div>
-						<div className='new-tags-column'>
-							<div className='new-tag-input-container'>
+						<div className='modif-tags-column'>
+							<div className='modif-tag-input-container'>
 								<input
 									type='checkbox'
 									ref={register}
@@ -150,7 +159,7 @@ const New = () => {
 								/>
 								<label htmlFor='chale'>Châle</label>
 							</div>
-							<div className='new-tag-input-container'>
+							<div className='modif-tag-input-container'>
 								<input
 									type='checkbox'
 									ref={register}
@@ -160,7 +169,7 @@ const New = () => {
 								/>
 								<label htmlFor='bonnet'>Bonnet</label>
 							</div>
-							<div className='new-tag-input-container'>
+							<div className='modif-tag-input-container'>
 								<input
 									type='checkbox'
 									ref={register}
@@ -171,8 +180,8 @@ const New = () => {
 								<label htmlFor='chaussettes'>Chaussettes</label>
 							</div>
 						</div>
-						<div className='new-tags-column'>
-							<div className='new-tag-input-container'>
+						<div className='modif-tags-column'>
+							<div className='modif-tag-input-container'>
 								<input
 									type='checkbox'
 									ref={register}
@@ -182,7 +191,7 @@ const New = () => {
 								/>
 								<label htmlFor='peluche'>Peluche</label>
 							</div>
-							<div className='new-tag-input-container'>
+							<div className='modif-tag-input-container'>
 								<input
 									type='checkbox'
 									ref={register}
@@ -192,7 +201,7 @@ const New = () => {
 								/>
 								<label htmlFor='fetes'>Fêtes</label>
 							</div>
-							<div className='new-tag-input-container'>
+							<div className='modif-tag-input-container'>
 								<input
 									type='checkbox'
 									ref={register}
@@ -209,12 +218,12 @@ const New = () => {
 					type='submit'
 					name='submit'
 					ref={register}
-					className='new-submit-button'>
-					Valider
+					className='modif-submit-button'>
+					Modifier
 				</button>
 			</form>
 		</div>
 	);
 };
 
-export default New;
+export default Modif;

@@ -9,6 +9,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Homepage from './Containers/Homepage';
 import All from './Containers/All';
 import New from './Containers/New';
+import Modif from './Components/Modif';
 
 // Icones
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -25,6 +26,9 @@ function App() {
 					</Route>
 					<Route path='/new'>
 						<New />
+					</Route>
+					<Route path='/modif/:id'>
+						<Modif />
 					</Route>
 					<Route exact path='/'>
 						<Homepage />
