@@ -49,6 +49,25 @@ const New = () => {
 		}
 	};
 
+	// Gerer les checkboxes
+	const handleTagClick = (tag) => {
+		// Trouver l'index dans le tableau de tags du tag séléctionné
+		const indexOfTag = tags.indexOf(tag);
+		// Créer une copie du tableau immuable tags
+		const newTags = [...tags];
+		// Si le tag existe
+		if (indexOfTag > -1) {
+			// on le supprime
+			newTags.splice(indexOfTag, 1);
+		} else {
+			// sinon on l'ajoute dans la copie de tableau...
+			newTags.push(tag);
+		}
+		//... puis on set le state tags avec le nouveau tableau mis à jour
+		setTags(newTags);
+	};
+	console.log(tags);
+
 	const history = useHistory();
 
 	return (
@@ -113,27 +132,28 @@ const New = () => {
 							<div className='new-tag-input-container'>
 								<input
 									type='checkbox'
-									name='tags'
 									value='Plaid'
 									className='checkbox'
+									// checked={tags.includes('Plaid')} --- Pour checker si check ou pas
+									onChange={(e) => handleTagClick(e.target.value)}
 								/>
 								<label htmlFor='topDown'>Plaid</label>
 							</div>
 							<div className='new-tag-input-container'>
 								<input
 									type='checkbox'
-									name='tags'
 									value='Echarpe'
 									className='checkbox'
+									onChange={(e) => handleTagClick(e.target.value)}
 								/>
 								<label htmlFor='echarpe'>Écharpe</label>
 							</div>
 							<div className='new-tag-input-container'>
 								<input
 									type='checkbox'
-									name='tags'
 									value='Gants'
 									className='checkbox'
+									onChange={(e) => handleTagClick(e.target.value)}
 								/>
 								<label htmlFor='gants'>Gants et mitaines</label>
 							</div>
@@ -142,27 +162,27 @@ const New = () => {
 							<div className='new-tag-input-container'>
 								<input
 									type='checkbox'
-									name='tags'
 									value='Chale'
 									className='checkbox'
+									onChange={(e) => handleTagClick(e.target.value)}
 								/>
 								<label htmlFor='chale'>Châle</label>
 							</div>
 							<div className='new-tag-input-container'>
 								<input
 									type='checkbox'
-									name='tags'
 									value='Bonnet'
 									className='checkbox'
+									onChange={(e) => handleTagClick(e.target.value)}
 								/>
 								<label htmlFor='bonnet'>Bonnet</label>
 							</div>
 							<div className='new-tag-input-container'>
 								<input
 									type='checkbox'
-									name='tags'
 									value='Chaussettes'
 									className='checkbox'
+									onChange={(e) => handleTagClick(e.target.value)}
 								/>
 								<label htmlFor='chaussettes'>Chaussettes</label>
 							</div>
@@ -171,27 +191,27 @@ const New = () => {
 							<div className='new-tag-input-container'>
 								<input
 									type='checkbox'
-									name='tags'
 									value='Peluche'
 									className='checkbox'
+									onChange={(e) => handleTagClick(e.target.value)}
 								/>
 								<label htmlFor='peluche'>Peluche</label>
 							</div>
 							<div className='new-tag-input-container'>
 								<input
 									type='checkbox'
-									name='tags'
 									value='Fetes'
 									className='checkbox'
+									onChange={(e) => handleTagClick(e.target.value)}
 								/>
 								<label htmlFor='fetes'>Fêtes</label>
 							</div>
 							<div className='new-tag-input-container'>
 								<input
 									type='checkbox'
-									name='tags'
 									value='LGBT'
 									className='checkbox'
+									onChange={(e) => handleTagClick(e.target.value)}
 								/>
 								<label htmlFor='lgbt'>LGBT</label>
 							</div>

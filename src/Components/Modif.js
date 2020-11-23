@@ -22,7 +22,6 @@ const Modif = () => {
 	const [price, setPrice] = useState(creation.price);
 	const [tags, setTags] = useState(creation.tags);
 	const [picture, setPicture] = useState(creation.picture.secure_url);
-	const [newTags, setNewTags] = useState([]);
 
 	let id = creation._id;
 
@@ -125,40 +124,36 @@ const Modif = () => {
 					</div>
 				</div>
 				<div className='modif-tags-section'>
-					<p>Tags</p>
+					{/* <p>Tags</p>
 					{tags.map((tag, i) => {
 						return <span key={i}>{tag}</span>;
-					})}
+					})} */}
 					<div className='modif-tags-container'>
 						<div className='modif-tags-column'>
 							<div className='modif-tag-input-container'>
 								<input
 									type='checkbox'
-									name='tags'
+									checked={tags.includes('Plaid')}
 									value='Plaid'
 									className='checkbox'
-									checked={isCheked()}
-									onChange={(e) => setNewTags(e.target.value)}
 								/>
 								<label htmlFor='topDown'>Plaid</label>
 							</div>
 							<div className='modif-tag-input-container'>
 								<input
 									type='checkbox'
-									name='tags'
+									checked={tags.includes('Echarpe')}
 									value='Echarpe'
 									className='checkbox'
-									checked={isCheked('Echarpe')}
 								/>
 								<label htmlFor='echarpe'>Écharpe</label>
 							</div>
 							<div className='modif-tag-input-container'>
 								<input
 									type='checkbox'
-									name='tags'
+									checked={tags.includes('Gants')}
 									value='Gants'
 									className='checkbox'
-									checked={isCheked()}
 								/>
 								<label htmlFor='gants'>Gants et mitaines</label>
 							</div>
@@ -167,7 +162,7 @@ const Modif = () => {
 							<div className='modif-tag-input-container'>
 								<input
 									type='checkbox'
-									name='tags'
+									checked={tags.includes('Chale')}
 									value='Chale'
 									className='checkbox'
 								/>
@@ -176,7 +171,7 @@ const Modif = () => {
 							<div className='modif-tag-input-container'>
 								<input
 									type='checkbox'
-									name='tags'
+									checked={tags.includes('Bonnet')}
 									value='Bonnet'
 									className='checkbox'
 								/>
@@ -185,7 +180,7 @@ const Modif = () => {
 							<div className='modif-tag-input-container'>
 								<input
 									type='checkbox'
-									name='tags'
+									checked={tags.includes('Chaussettes')}
 									value='Chaussettes'
 									className='checkbox'
 								/>
@@ -196,7 +191,7 @@ const Modif = () => {
 							<div className='modif-tag-input-container'>
 								<input
 									type='checkbox'
-									name='tags'
+									checked={tags.includes('Peluche')}
 									value='Peluche'
 									className='checkbox'
 								/>
@@ -205,7 +200,7 @@ const Modif = () => {
 							<div className='modif-tag-input-container'>
 								<input
 									type='checkbox'
-									name='tags'
+									checked={tags.includes('Fetes')}
 									value='Fetes'
 									className='checkbox'
 								/>
@@ -214,7 +209,7 @@ const Modif = () => {
 							<div className='modif-tag-input-container'>
 								<input
 									type='checkbox'
-									name='tags'
+									checked={tags.includes('LGBT')}
 									value='LGBT'
 									className='checkbox'
 								/>
