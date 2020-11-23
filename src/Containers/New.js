@@ -8,35 +8,35 @@ import axios from 'axios';
 // Router
 import { useHistory } from 'react-router-dom';
 
-// Form
-import { useForm } from 'react-hook-form';
-
 // img
 import borderLeft from '../assets/img/deco_left.png';
 import file from '../assets/img/file.png';
 
 const New = () => {
-	const [image, setImage] = useState();
+	const [title, setTitle] = useState('');
+	const [fabrics, setFabrics] = useState('');
+	const [colors, setColors] = useState('');
+	const [price, setPrice] = useState(0);
+	const [tags, setTags] = useState([]);
+	const [picture, setPicture] = useState();
 
-	// submit form
-	const { register, handleSubmit } = useForm();
-
-	const onSubmit = async (data, e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
 
 		const formData = new FormData();
-		formData.append('title', data.title);
-		formData.append('tags', data.tags);
-		formData.append('fabrics', data.fabrics);
-		formData.append('colors', data.colors);
-		formData.append('price', data.price);
-		formData.append('picture', data.picture[0]);
+		formData.append('title', title);
+		formData.append('tags', tags);
+		formData.append('fabrics', fabrics);
+		formData.append('colors', colors);
+		formData.append('price', price);
+		formData.append('picture', picture[0]);
 		try {
 			const response = await axios.post(
 				'https://squiddy-shop-api.herokuapp.com/annonce',
 				// 'http://localhost:3010/annonce',
 				formData
 			);
+			console.log(response);
 
 			if (response.status === 200) {
 				alert('Nouvelle création ajoutée !');
@@ -56,10 +56,14 @@ const New = () => {
 			<div className='new-img-decoration-container'>
 				<img src={borderLeft} alt='left border' />
 			</div>
-			<form className='new-inputs-section' onSubmit={handleSubmit(onSubmit)}>
+			<form className='new-inputs-section' onSubmit={handleSubmit}>
 				<div className='new-inputs-container'>
 					<p>Titre</p>
-					<input required name='title' ref={register} />
+					<input
+						required
+						name='title'
+						onChange={(e) => setTitle(e.target.value)}
+					/>
 				</div>
 				<div className='new-inputs-container'>
 					<p>Prix</p>
@@ -69,16 +73,20 @@ const New = () => {
 						type='number'
 						className='number-input'
 						name='price'
-						ref={register}
+						onChange={(e) => setPrice(e.target.value)}
 					/>
 				</div>
 				<div className='new-inputs-container'>
 					<p>Matière</p>
-					<input name='fabrics' ref={register} />
+					<input name='fabrics' onChange={(e) => setFabrics(e.target.value)} />
 				</div>
 				<div className='new-inputs-container'>
 					<p>Couleurs</p>
-					<input type='text' name='colors' ref={register} />
+					<input
+						type='text'
+						name='colors'
+						onChange={(e) => setColors(e.target.value)}
+					/>
 				</div>
 				<div className='new-image-container'>
 					<p>Image</p>
@@ -92,15 +100,9 @@ const New = () => {
 						type='file'
 						accept='.jpg,.png'
 						name='picture'
-						onChange={(e) => setImage(e.target.files)}
-						ref={register}
+						onChange={(e) => setPicture(e.target.files)}
 					/>
-					<div
-						className={
-							image && image[0].name.length !== 0
-								? 'download-validation'
-								: 'hide'
-						}>
+					<div className={picture ? 'download-validation' : 'hide'}>
 						Image ajoutée !
 					</div>
 				</div>
@@ -110,7 +112,6 @@ const New = () => {
 						<div className='new-tags-column'>
 							<div className='new-tag-input-container'>
 								<input
-									ref={register}
 									type='checkbox'
 									name='tags'
 									value='Plaid'
@@ -123,7 +124,6 @@ const New = () => {
 									type='checkbox'
 									name='tags'
 									value='Echarpe'
-									ref={register}
 									className='checkbox'
 								/>
 								<label htmlFor='echarpe'>Écharpe</label>
@@ -131,7 +131,6 @@ const New = () => {
 							<div className='new-tag-input-container'>
 								<input
 									type='checkbox'
-									ref={register}
 									name='tags'
 									value='Gants'
 									className='checkbox'
@@ -143,7 +142,6 @@ const New = () => {
 							<div className='new-tag-input-container'>
 								<input
 									type='checkbox'
-									ref={register}
 									name='tags'
 									value='Chale'
 									className='checkbox'
@@ -153,7 +151,6 @@ const New = () => {
 							<div className='new-tag-input-container'>
 								<input
 									type='checkbox'
-									ref={register}
 									name='tags'
 									value='Bonnet'
 									className='checkbox'
@@ -163,7 +160,6 @@ const New = () => {
 							<div className='new-tag-input-container'>
 								<input
 									type='checkbox'
-									ref={register}
 									name='tags'
 									value='Chaussettes'
 									className='checkbox'
@@ -175,7 +171,6 @@ const New = () => {
 							<div className='new-tag-input-container'>
 								<input
 									type='checkbox'
-									ref={register}
 									name='tags'
 									value='Peluche'
 									className='checkbox'
@@ -185,7 +180,6 @@ const New = () => {
 							<div className='new-tag-input-container'>
 								<input
 									type='checkbox'
-									ref={register}
 									name='tags'
 									value='Fetes'
 									className='checkbox'
@@ -195,7 +189,6 @@ const New = () => {
 							<div className='new-tag-input-container'>
 								<input
 									type='checkbox'
-									ref={register}
 									name='tags'
 									value='LGBT'
 									className='checkbox'
@@ -205,11 +198,7 @@ const New = () => {
 						</div>
 					</div>
 				</div>
-				<button
-					type='submit'
-					name='submit'
-					ref={register}
-					className='new-submit-button'>
+				<button type='submit' className='new-submit-button'>
 					Valider
 				</button>
 			</form>

@@ -4,8 +4,6 @@ import '../assets/css/Modif.css';
 
 // Axios
 import axios from 'axios';
-// Form
-import { useForm } from 'react-hook-form';
 
 // useLocation
 import { useLocation, useHistory } from 'react-router-dom';
@@ -18,22 +16,27 @@ const Modif = () => {
 
 	let creation = location.state.creation;
 
-	const [image, setImage] = useState();
+	const [title, setTitle] = useState(creation.title);
+	const [fabrics, setFabrics] = useState(creation.fabrics);
+	const [colors, setColors] = useState(creation.colors);
+	const [price, setPrice] = useState(creation.price);
+	const [tags, setTags] = useState(creation.tags);
+	const [picture, setPicture] = useState(creation.picture.secure_url);
+	const [newTags, setNewTags] = useState([]);
 
-	const { register, handleSubmit } = useForm();
 	let id = creation._id;
 
-	const onSubmit = async (data, e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
 
 		const formData = new FormData();
 
-		formData.append('title', data.title);
-		formData.append('title', data.tags);
-		formData.append('title', data.fabrics);
-		formData.append('title', data.colors);
-		formData.append('title', data.price);
-		formData.append('picture', data.picture[0]);
+		formData.append('title', title);
+		// formData.append('tags', tags);
+		formData.append('fabrics', fabrics);
+		formData.append('colors', colors);
+		formData.append('price', price);
+		formData.append('picture', picture[0]);
 		try {
 			const response = await axios.patch(
 				`https://squiddy-shop-api.herokuapp.com/annonce/${id}`,
@@ -52,15 +55,28 @@ const Modif = () => {
 
 	const history = useHistory();
 
+	const isCheked = (value) => {
+		console.log(tags);
+		if (tags.indexOf(tags[value]) > -1) {
+			console.log('ok');
+		}
+		return false;
+	};
+
+	console.log(isCheked('LGBT'));
 	return (
 		<div className='modif-wrapper'>
 			<div className='modif-img-decoration-container'>
 				<img src={creation.picture.secure_url} alt='crea pic' />
 			</div>
-			<form className='modif-inputs-section' onSubmit={handleSubmit(onSubmit)}>
+			<form className='modif-inputs-section' onSubmit={handleSubmit}>
 				<div className='modif-inputs-container'>
 					<p>Titre</p>
-					<input name='title' placeholder={creation.title} ref={register} />
+					<input
+						name='title'
+						value={title}
+						onChange={(e) => setTitle(e.target.value)}
+					/>
 				</div>
 				<div className='modif-inputs-container'>
 					<p>Prix</p>
@@ -68,22 +84,26 @@ const Modif = () => {
 						step='.01'
 						type='number'
 						className='number-input'
-						placeholder={creation.price}
+						value={price}
+						onChange={(e) => setPrice(e.target.value)}
 						name='price'
-						ref={register}
 					/>
 				</div>
 				<div className='modif-inputs-container'>
 					<p>Matière</p>
-					<input name='fabrics' ref={register} placeholder={creation.fabrics} />
+					<input
+						name='fabrics'
+						value={fabrics}
+						onChange={(e) => setFabrics(e.target.value)}
+					/>
 				</div>
 				<div className='modif-inputs-container'>
 					<p>Couleurs</p>
 					<input
 						type='text'
 						name='colors'
-						ref={register}
-						placeholder={creation.colors}
+						value={colors}
+						onChange={(e) => setColors(e.target.value)}
 					/>
 				</div>
 				<div className='modif-image-container'>
@@ -98,32 +118,27 @@ const Modif = () => {
 						type='file'
 						accept='.jpg,.png'
 						name='picture'
-						onChange={(e) => setImage(e.target.files)}
-						ref={register}
+						onChange={(e) => setPicture(e.target.files)}
 					/>
-					<div
-						className={
-							image && image[0].name.length !== 0
-								? 'download-validation'
-								: 'hide'
-						}>
+					<div className={picture[0].name ? 'download-validation' : 'hide'}>
 						Image ajoutée !
 					</div>
 				</div>
 				<div className='modif-tags-section'>
 					<p>Tags</p>
-					{creation.tags.map((tag, i) => {
+					{tags.map((tag, i) => {
 						return <span key={i}>{tag}</span>;
 					})}
 					<div className='modif-tags-container'>
 						<div className='modif-tags-column'>
 							<div className='modif-tag-input-container'>
 								<input
-									ref={register}
 									type='checkbox'
 									name='tags'
 									value='Plaid'
 									className='checkbox'
+									checked={isCheked()}
+									onChange={(e) => setNewTags(e.target.value)}
 								/>
 								<label htmlFor='topDown'>Plaid</label>
 							</div>
@@ -132,18 +147,18 @@ const Modif = () => {
 									type='checkbox'
 									name='tags'
 									value='Echarpe'
-									ref={register}
 									className='checkbox'
+									checked={isCheked('Echarpe')}
 								/>
 								<label htmlFor='echarpe'>Écharpe</label>
 							</div>
 							<div className='modif-tag-input-container'>
 								<input
 									type='checkbox'
-									ref={register}
 									name='tags'
 									value='Gants'
 									className='checkbox'
+									checked={isCheked()}
 								/>
 								<label htmlFor='gants'>Gants et mitaines</label>
 							</div>
@@ -152,7 +167,6 @@ const Modif = () => {
 							<div className='modif-tag-input-container'>
 								<input
 									type='checkbox'
-									ref={register}
 									name='tags'
 									value='Chale'
 									className='checkbox'
@@ -162,7 +176,6 @@ const Modif = () => {
 							<div className='modif-tag-input-container'>
 								<input
 									type='checkbox'
-									ref={register}
 									name='tags'
 									value='Bonnet'
 									className='checkbox'
@@ -172,7 +185,6 @@ const Modif = () => {
 							<div className='modif-tag-input-container'>
 								<input
 									type='checkbox'
-									ref={register}
 									name='tags'
 									value='Chaussettes'
 									className='checkbox'
@@ -184,7 +196,6 @@ const Modif = () => {
 							<div className='modif-tag-input-container'>
 								<input
 									type='checkbox'
-									ref={register}
 									name='tags'
 									value='Peluche'
 									className='checkbox'
@@ -194,7 +205,6 @@ const Modif = () => {
 							<div className='modif-tag-input-container'>
 								<input
 									type='checkbox'
-									ref={register}
 									name='tags'
 									value='Fetes'
 									className='checkbox'
@@ -204,7 +214,6 @@ const Modif = () => {
 							<div className='modif-tag-input-container'>
 								<input
 									type='checkbox'
-									ref={register}
 									name='tags'
 									value='LGBT'
 									className='checkbox'
@@ -214,11 +223,7 @@ const Modif = () => {
 						</div>
 					</div>
 				</div>
-				<button
-					type='submit'
-					name='submit'
-					ref={register}
-					className='modif-submit-button'>
+				<button type='submit' name='submit' className='modif-submit-button'>
 					Modifier
 				</button>
 			</form>
