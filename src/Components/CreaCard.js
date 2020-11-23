@@ -47,7 +47,6 @@ const CreaCard = ({ creation }) => {
 		}
 	};
 
-	console.log(date);
 	return (
 		<div className='card-wrapper'>
 			<div className='card-image-container'>
@@ -59,7 +58,13 @@ const CreaCard = ({ creation }) => {
 				<p className='card-price'>{creation.price} €</p>
 				<p className='card-date'>{date}</p>
 				<div className='card-icons-container'>
-					<Link className='Link' style={{ color: '#A8AA51' }}>
+					<Link
+						className='Link'
+						style={{ color: '#A8AA51' }}
+						to={{
+							pathname: `/modif/${id}`,
+							state: { creation },
+						}}>
 						<FontAwesomeIcon icon='eye' size='2x' className='hover' />
 					</Link>
 				</div>

@@ -31,7 +31,6 @@ const All = () => {
 		fetchData();
 	}, [creations]);
 
-	console.log(creations);
 	return isLoading ? (
 		<div>...Chargement</div>
 	) : (

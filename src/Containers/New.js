@@ -8,32 +8,32 @@ import axios from 'axios';
 // Router
 import { useHistory } from 'react-router-dom';
 
-// Form
-import { useForm } from 'react-hook-form';
-
 // img
 import borderLeft from '../assets/img/deco_left.png';
 import file from '../assets/img/file.png';
 
 const New = () => {
-	const [image, setImage] = useState();
+	const [title, setTitle] = useState('');
+	const [fabrics, setFabrics] = useState('');
+	const [colors, setColors] = useState('');
+	const [price, setPrice] = useState(0);
+	const [tags, setTags] = useState([]);
+	const [picture, setPicture] = useState();
 
-	// submit form
-	const { register, handleSubmit } = useForm();
-
-	const onSubmit = async (data, e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
 
 		const formData = new FormData();
-		formData.append('title', data.title);
-		formData.append('tags', data.tags);
-		formData.append('fabrics', data.fabrics);
-		formData.append('colors', data.colors);
-		formData.append('price', data.price);
-		formData.append('picture', data.picture[0]);
+		formData.append('title', title);
+		formData.append('tags', tags);
+		formData.append('fabrics', fabrics);
+		formData.append('colors', colors);
+		formData.append('price', price);
+		formData.append('picture', picture[0]);
 		try {
 			const response = await axios.post(
 				'https://squiddy-shop-api.herokuapp.com/annonce',
+				// 'http://localhost:3010/annonce',
 				formData
 			);
 			console.log(response);
@@ -49,6 +49,25 @@ const New = () => {
 		}
 	};
 
+	// Gerer les checkboxes
+	const handleTagClick = (tag) => {
+		// Trouver l'index dans le tableau de tags du tag séléctionné
+		const indexOfTag = tags.indexOf(tag);
+		// Créer une copie du tableau immuable tags
+		const newTags = [...tags];
+		// Si le tag existe
+		if (indexOfTag > -1) {
+			// on le supprime
+			newTags.splice(indexOfTag, 1);
+		} else {
+			// sinon on l'ajoute dans la copie de tableau...
+			newTags.push(tag);
+		}
+		//... puis on set le state tags avec le nouveau tableau mis à jour
+		setTags(newTags);
+	};
+	console.log(tags);
+
 	const history = useHistory();
 
 	return (
@@ -56,10 +75,14 @@ const New = () => {
 			<div className='new-img-decoration-container'>
 				<img src={borderLeft} alt='left border' />
 			</div>
-			<form className='new-inputs-section' onSubmit={handleSubmit(onSubmit)}>
+			<form className='new-inputs-section' onSubmit={handleSubmit}>
 				<div className='new-inputs-container'>
 					<p>Titre</p>
-					<input required name='title' ref={register} />
+					<input
+						required
+						name='title'
+						onChange={(e) => setTitle(e.target.value)}
+					/>
 				</div>
 				<div className='new-inputs-container'>
 					<p>Prix</p>
@@ -69,16 +92,20 @@ const New = () => {
 						type='number'
 						className='number-input'
 						name='price'
-						ref={register}
+						onChange={(e) => setPrice(e.target.value)}
 					/>
 				</div>
 				<div className='new-inputs-container'>
 					<p>Matière</p>
-					<input name='fabrics' ref={register} />
+					<input name='fabrics' onChange={(e) => setFabrics(e.target.value)} />
 				</div>
 				<div className='new-inputs-container'>
 					<p>Couleurs</p>
-					<input type='text' name='colors' ref={register} />
+					<input
+						type='text'
+						name='colors'
+						onChange={(e) => setColors(e.target.value)}
+					/>
 				</div>
 				<div className='new-image-container'>
 					<p>Image</p>
@@ -92,15 +119,9 @@ const New = () => {
 						type='file'
 						accept='.jpg,.png'
 						name='picture'
-						onChange={(e) => setImage(e.target.files)}
-						ref={register}
+						onChange={(e) => setPicture(e.target.files)}
 					/>
-					<div
-						className={
-							image && image[0].name.length !== 0
-								? 'download-validation'
-								: 'hide'
-						}>
+					<div className={picture ? 'download-validation' : 'hide'}>
 						Image ajoutée !
 					</div>
 				</div>
@@ -110,31 +131,29 @@ const New = () => {
 						<div className='new-tags-column'>
 							<div className='new-tag-input-container'>
 								<input
-									ref={register}
 									type='checkbox'
-									name='tags'
 									value='Plaid'
 									className='checkbox'
+									// checked={tags.includes('Plaid')} --- Pour checker si check ou pas
+									onChange={(e) => handleTagClick(e.target.value)}
 								/>
 								<label htmlFor='topDown'>Plaid</label>
 							</div>
 							<div className='new-tag-input-container'>
 								<input
 									type='checkbox'
-									name='tags'
 									value='Echarpe'
-									ref={register}
 									className='checkbox'
+									onChange={(e) => handleTagClick(e.target.value)}
 								/>
 								<label htmlFor='echarpe'>Écharpe</label>
 							</div>
 							<div className='new-tag-input-container'>
 								<input
 									type='checkbox'
-									ref={register}
-									name='tags'
 									value='Gants'
 									className='checkbox'
+									onChange={(e) => handleTagClick(e.target.value)}
 								/>
 								<label htmlFor='gants'>Gants et mitaines</label>
 							</div>
@@ -143,30 +162,27 @@ const New = () => {
 							<div className='new-tag-input-container'>
 								<input
 									type='checkbox'
-									ref={register}
-									name='tags'
 									value='Chale'
 									className='checkbox'
+									onChange={(e) => handleTagClick(e.target.value)}
 								/>
 								<label htmlFor='chale'>Châle</label>
 							</div>
 							<div className='new-tag-input-container'>
 								<input
 									type='checkbox'
-									ref={register}
-									name='tags'
 									value='Bonnet'
 									className='checkbox'
+									onChange={(e) => handleTagClick(e.target.value)}
 								/>
 								<label htmlFor='bonnet'>Bonnet</label>
 							</div>
 							<div className='new-tag-input-container'>
 								<input
 									type='checkbox'
-									ref={register}
-									name='tags'
 									value='Chaussettes'
 									className='checkbox'
+									onChange={(e) => handleTagClick(e.target.value)}
 								/>
 								<label htmlFor='chaussettes'>Chaussettes</label>
 							</div>
@@ -175,41 +191,34 @@ const New = () => {
 							<div className='new-tag-input-container'>
 								<input
 									type='checkbox'
-									ref={register}
-									name='tags'
 									value='Peluche'
 									className='checkbox'
+									onChange={(e) => handleTagClick(e.target.value)}
 								/>
 								<label htmlFor='peluche'>Peluche</label>
 							</div>
 							<div className='new-tag-input-container'>
 								<input
 									type='checkbox'
-									ref={register}
-									name='tags'
 									value='Fetes'
 									className='checkbox'
+									onChange={(e) => handleTagClick(e.target.value)}
 								/>
 								<label htmlFor='fetes'>Fêtes</label>
 							</div>
 							<div className='new-tag-input-container'>
 								<input
 									type='checkbox'
-									ref={register}
-									name='tags'
 									value='LGBT'
 									className='checkbox'
+									onChange={(e) => handleTagClick(e.target.value)}
 								/>
 								<label htmlFor='lgbt'>LGBT</label>
 							</div>
 						</div>
 					</div>
 				</div>
-				<button
-					type='submit'
-					name='submit'
-					ref={register}
-					className='new-submit-button'>
+				<button type='submit' className='new-submit-button'>
 					Valider
 				</button>
 			</form>
