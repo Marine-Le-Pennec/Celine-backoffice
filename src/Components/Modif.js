@@ -21,8 +21,8 @@ const Modif = () => {
 	const [colors, setColors] = useState(creation.colors);
 	const [price, setPrice] = useState(creation.price);
 	const [tags, setTags] = useState(creation.tags);
-	const [picture, setPicture] = useState(creation.picture.secure_url);
-
+	const [picture, setPicture] = useState(creation.picture);
+	console.log(picture);
 	let id = creation._id;
 
 	const handleSubmit = async (e) => {
@@ -31,11 +31,15 @@ const Modif = () => {
 		const formData = new FormData();
 
 		formData.append('title', title);
-		// formData.append('tags', tags);
+		formData.append('tags', tags);
 		formData.append('fabrics', fabrics);
 		formData.append('colors', colors);
 		formData.append('price', price);
-		formData.append('picture', picture[0]);
+		formData.append(
+			'picture',
+			formData.append('picture', picture === undefined ? undefined : picture[0])
+		);
+
 		try {
 			const response = await axios.patch(
 				`https://squiddy-shop-api.herokuapp.com/annonce/${id}`,
@@ -53,21 +57,36 @@ const Modif = () => {
 	};
 
 	const history = useHistory();
-
-	const isCheked = (value) => {
-		console.log(tags);
-		if (tags.indexOf(tags[value]) > -1) {
-			console.log('ok');
+	console.log(creation);
+	// Gerer les checkboxes
+	const handleTagClick = (tag) => {
+		// Trouver l'index dans le tableau de tags du tag séléctionné
+		const indexOfTag = tags.indexOf(tag);
+		// Créer une copie du tableau immuable tags
+		const newTags = [...tags];
+		// Si le tag existe
+		if (indexOfTag > -1) {
+			// on le supprime
+			newTags.splice(indexOfTag, 1);
+		} else {
+			// sinon on l'ajoute dans la copie de tableau...
+			newTags.push(tag);
 		}
-		return false;
+		//... puis on set le state tags avec le nouveau tableau mis à jour
+		setTags(newTags);
 	};
 
-	console.log(isCheked('LGBT'));
+	const correctPicture = () => {
+		if (creation.picture.secure_url) {
+			return <img src={creation.picture.secure_url} alt='miniature' />;
+		} else {
+			return <img src={creation.picture} alt='miniature' />;
+		}
+	};
+
 	return (
 		<div className='modif-wrapper'>
-			<div className='modif-img-decoration-container'>
-				<img src={creation.picture.secure_url} alt='crea pic' />
-			</div>
+			<div className='modif-img-decoration-container'>{correctPicture()}</div>
 			<form className='modif-inputs-section' onSubmit={handleSubmit}>
 				<div className='modif-inputs-container'>
 					<p>Titre</p>
@@ -119,15 +138,11 @@ const Modif = () => {
 						name='picture'
 						onChange={(e) => setPicture(e.target.files)}
 					/>
-					<div className={picture[0].name ? 'download-validation' : 'hide'}>
-						Image ajoutée !
+					<div className={picture[0] ? 'download-validation' : 'hide'}>
+						Image changée !
 					</div>
 				</div>
 				<div className='modif-tags-section'>
-					{/* <p>Tags</p>
-					{tags.map((tag, i) => {
-						return <span key={i}>{tag}</span>;
-					})} */}
 					<div className='modif-tags-container'>
 						<div className='modif-tags-column'>
 							<div className='modif-tag-input-container'>
@@ -136,6 +151,7 @@ const Modif = () => {
 									checked={tags.includes('Plaid')}
 									value='Plaid'
 									className='checkbox'
+									onChange={(e) => handleTagClick(e.target.value)}
 								/>
 								<label htmlFor='topDown'>Plaid</label>
 							</div>
@@ -145,6 +161,7 @@ const Modif = () => {
 									checked={tags.includes('Echarpe')}
 									value='Echarpe'
 									className='checkbox'
+									onChange={(e) => handleTagClick(e.target.value)}
 								/>
 								<label htmlFor='echarpe'>Écharpe</label>
 							</div>
@@ -154,6 +171,7 @@ const Modif = () => {
 									checked={tags.includes('Gants')}
 									value='Gants'
 									className='checkbox'
+									onChange={(e) => handleTagClick(e.target.value)}
 								/>
 								<label htmlFor='gants'>Gants et mitaines</label>
 							</div>
@@ -165,6 +183,7 @@ const Modif = () => {
 									checked={tags.includes('Chale')}
 									value='Chale'
 									className='checkbox'
+									onChange={(e) => handleTagClick(e.target.value)}
 								/>
 								<label htmlFor='chale'>Châle</label>
 							</div>
@@ -174,6 +193,7 @@ const Modif = () => {
 									checked={tags.includes('Bonnet')}
 									value='Bonnet'
 									className='checkbox'
+									onChange={(e) => handleTagClick(e.target.value)}
 								/>
 								<label htmlFor='bonnet'>Bonnet</label>
 							</div>
@@ -183,6 +203,7 @@ const Modif = () => {
 									checked={tags.includes('Chaussettes')}
 									value='Chaussettes'
 									className='checkbox'
+									onChange={(e) => handleTagClick(e.target.value)}
 								/>
 								<label htmlFor='chaussettes'>Chaussettes</label>
 							</div>
@@ -194,6 +215,7 @@ const Modif = () => {
 									checked={tags.includes('Peluche')}
 									value='Peluche'
 									className='checkbox'
+									onChange={(e) => handleTagClick(e.target.value)}
 								/>
 								<label htmlFor='peluche'>Peluche</label>
 							</div>
@@ -203,6 +225,7 @@ const Modif = () => {
 									checked={tags.includes('Fetes')}
 									value='Fetes'
 									className='checkbox'
+									onChange={(e) => handleTagClick(e.target.value)}
 								/>
 								<label htmlFor='fetes'>Fêtes</label>
 							</div>
@@ -212,6 +235,7 @@ const Modif = () => {
 									checked={tags.includes('LGBT')}
 									value='LGBT'
 									className='checkbox'
+									onChange={(e) => handleTagClick(e.target.value)}
 								/>
 								<label htmlFor='lgbt'>LGBT</label>
 							</div>

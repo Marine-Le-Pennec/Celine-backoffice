@@ -29,7 +29,9 @@ const New = () => {
 		formData.append('fabrics', fabrics);
 		formData.append('colors', colors);
 		formData.append('price', price);
-		formData.append('picture', picture[0]);
+
+		formData.append('picture', picture === undefined ? undefined : picture[0]);
+
 		try {
 			const response = await axios.post(
 				'https://squiddy-shop-api.herokuapp.com/annonce',
@@ -66,9 +68,9 @@ const New = () => {
 		//... puis on set le state tags avec le nouveau tableau mis à jour
 		setTags(newTags);
 	};
-	console.log(tags);
 
 	const history = useHistory();
+	console.log(tags);
 
 	return (
 		<div className='new-wrapper'>
@@ -134,7 +136,6 @@ const New = () => {
 									type='checkbox'
 									value='Plaid'
 									className='checkbox'
-									// checked={tags.includes('Plaid')} --- Pour checker si check ou pas
 									onChange={(e) => handleTagClick(e.target.value)}
 								/>
 								<label htmlFor='topDown'>Plaid</label>

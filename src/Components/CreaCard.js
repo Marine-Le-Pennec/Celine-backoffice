@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 // css
 import '../assets/css/CreaCard.css';
 
@@ -18,10 +18,10 @@ const CreaCard = ({ creation }) => {
 	// Fetch picture
 
 	const correctPicture = () => {
-		if (!creation.picture) {
-			return <img src={noImage} alt='miniature' />;
-		} else {
+		if (creation.picture.secure_url) {
 			return <img src={creation.picture.secure_url} alt='miniature' />;
+		} else {
+			return <img src={creation.picture} alt='miniature' />;
 		}
 	};
 
@@ -32,6 +32,7 @@ const CreaCard = ({ creation }) => {
 	const date = new Date(creation.created).toLocaleDateString();
 
 	// Delete crea
+
 	const HandleDelete = async (event) => {
 		try {
 			event.preventDefault();
@@ -46,6 +47,26 @@ const CreaCard = ({ creation }) => {
 			console.log(error);
 		}
 	};
+
+	useEffect(() => {
+		const HandleDelete = async (event) => {
+			try {
+				event.preventDefault();
+				let r = window.confirm('Souhaitez-vous supprimer cette création ?');
+				if (r === true) {
+					await axios.delete(
+						`https://squiddy-shop-api.herokuapp.com/annonce/${id}`
+					);
+					alert('Création supprimée !');
+				}
+			} catch (error) {
+				console.log(error);
+			}
+		};
+		return () => {
+			HandleDelete();
+		};
+	}, [id]);
 
 	return (
 		<div className='card-wrapper'>
