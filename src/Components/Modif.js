@@ -22,7 +22,9 @@ const Modif = () => {
 	const [price, setPrice] = useState(creation.price);
 	const [tags, setTags] = useState(creation.tags);
 	const [picture, setPicture] = useState(creation.picture);
-	console.log(picture);
+	const [shoplink, setShoplink] = useState(creation.shoplink);
+	const [onsale, setOnsale] = useState(creation.onsale);
+
 	let id = creation._id;
 
 	const handleSubmit = async (e) => {
@@ -37,8 +39,10 @@ const Modif = () => {
 		formData.append('price', price);
 		formData.append(
 			'picture',
-			formData.append('picture', picture === undefined ? undefined : picture[0])
+			picture.secure_url ? picture.secure_url : picture ? picture : picture[0]
 		);
+		formData.append('shoplink', shoplink);
+		formData.append('onsale', onsale);
 
 		try {
 			const response = await axios.patch(
@@ -57,7 +61,7 @@ const Modif = () => {
 	};
 
 	const history = useHistory();
-	console.log(creation);
+
 	// Gerer les checkboxes
 	const handleTagClick = (tag) => {
 		// Trouver l'index dans le tableau de tags du tag séléctionné
@@ -74,6 +78,14 @@ const Modif = () => {
 		}
 		//... puis on set le state tags avec le nouveau tableau mis à jour
 		setTags(newTags);
+	};
+
+	// Gérer le toggle "À vendre"
+	const handleOnSaleClick = () => {
+		setOnsale(!onsale);
+		if (!onsale) {
+			setShoplink('');
+		}
 	};
 
 	const correctPicture = () => {
@@ -242,6 +254,25 @@ const Modif = () => {
 						</div>
 					</div>
 				</div>
+				<section className='new-inputs-container'>
+					<p>À vendre ?</p>
+					<input
+						type='checkbox'
+						checked={onsale}
+						onChange={handleOnSaleClick}
+						className='onsale-checkbox'
+					/>
+					<div>
+						{onsale && (
+							<input
+								type='text'
+								value={shoplink}
+								placeholder='Adresse de la page Etsy'
+								onChange={(e) => setShoplink(e.target.value)}
+							/>
+						)}
+					</div>
+				</section>
 				<button type='submit' name='submit' className='modif-submit-button'>
 					Modifier
 				</button>
