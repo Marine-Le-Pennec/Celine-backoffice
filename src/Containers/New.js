@@ -19,6 +19,8 @@ const New = () => {
 	const [price, setPrice] = useState(0);
 	const [tags, setTags] = useState([]);
 	const [picture, setPicture] = useState();
+	const [shoplink, setShoplink] = useState('');
+	const [onsale, setOnsale] = useState(false);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -29,6 +31,8 @@ const New = () => {
 		formData.append('fabrics', fabrics);
 		formData.append('colors', colors);
 		formData.append('price', price);
+		formData.append('shoplink', shoplink);
+		formData.append('onsale', onsale);
 
 		formData.append('picture', picture === undefined ? undefined : picture[0]);
 
@@ -69,8 +73,15 @@ const New = () => {
 		setTags(newTags);
 	};
 
+	// Gérer le toggle "À vendre"
+	const handleOnSaleClick = () => {
+		setOnsale(!onsale);
+		if (!onsale) {
+			setShoplink('');
+		}
+	};
+
 	const history = useHistory();
-	console.log(tags);
 
 	return (
 		<div className='new-wrapper'>
@@ -219,6 +230,23 @@ const New = () => {
 						</div>
 					</div>
 				</div>
+				<section className='new-inputs-container'>
+					<p>À vendre ?</p>
+					<input
+						type='checkbox'
+						checked={onsale}
+						onChange={handleOnSaleClick}
+						className='onsale-checkbox'
+					/>
+					<div>
+						{onsale && (
+							<input
+								placeholder='Adresse de la page Etsy'
+								onChange={(e) => setShoplink(e.target.value)}
+							/>
+						)}
+					</div>
+				</section>
 				<button type='submit' className='new-submit-button'>
 					Valider
 				</button>
