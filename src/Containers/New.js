@@ -19,6 +19,8 @@ const New = () => {
 	const [price, setPrice] = useState(0);
 	const [tags, setTags] = useState([]);
 	const [picture, setPicture] = useState();
+	const [shoplink, setshoplink] = useState('');
+	const [onsale, setonsale] = useState(false);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
