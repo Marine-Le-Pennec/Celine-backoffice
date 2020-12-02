@@ -24,6 +24,7 @@ const Modif = () => {
 	const [picture, setPicture] = useState(creation.picture);
 	const [shoplink, setShoplink] = useState(creation.shoplink);
 	const [onsale, setOnsale] = useState(creation.onsale);
+	const [size, setSize] = useState('');
 
 	let id = creation._id;
 
@@ -37,17 +38,15 @@ const Modif = () => {
 		formData.append('fabrics', fabrics);
 		formData.append('colors', colors);
 		formData.append('price', price);
-		formData.append(
-			'picture',
-			picture.secure_url ? picture.secure_url : picture ? picture : picture[0]
-		);
+		formData.append('picture', picture[0] && picture[0]);
 		formData.append('shoplink', shoplink);
 		formData.append('onsale', onsale);
+		formData.append('size', size);
 
 		try {
 			const response = await axios.patch(
-				`https://squiddy-shop-api.herokuapp.com/annonce/${id}`,
-				// `http://localhost:3010/annonce/${id}`,
+				// `https://squiddy-shop-api.herokuapp.com/annonce/${id}`,
+				`http://localhost:3010/annonce/${id}`,
 
 				formData
 			);
@@ -134,6 +133,14 @@ const Modif = () => {
 						name='colors'
 						value={colors}
 						onChange={(e) => setColors(e.target.value)}
+					/>
+				</div>
+				<div className='modif-inputs-container'>
+					<p>Taille</p>
+					<input
+						type='text'
+						name='size'
+						onChange={(e) => setSize(e.target.value)}
 					/>
 				</div>
 				<div className='modif-image-container'>
