@@ -8,9 +8,6 @@ import axios from 'axios';
 // Router
 import { Link } from 'react-router-dom';
 
-// img
-import noImage from '../assets/img/no.png';
-
 // Fontawesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -19,12 +16,12 @@ const CreaCard = ({ creation }) => {
 
 	const correctPicture = () => {
 		if (creation.picture.secure_url) {
-			return <img src={creation.picture.secure_url} alt='miniature' />;
+			return <img src={creation.picture.secure_url} alt={creation.title} />;
 		} else {
 			return <img src={creation.picture} alt='miniature' />;
 		}
 	};
-
+	console.log(creation);
 	// Fetch ID
 	const id = creation._id;
 
@@ -70,10 +67,7 @@ const CreaCard = ({ creation }) => {
 
 	return (
 		<div className='card-wrapper'>
-			<div className='card-image-container'>
-				{/* <img src={image} alt='miniature' /> */}
-				{correctPicture()}
-			</div>
+			<div className='card-image-container'>{correctPicture()}</div>
 			<div className='card-info-resume-container'>
 				<p className='card-title'>{creation.title}</p>
 				<p className='card-price'>{creation.price} €</p>

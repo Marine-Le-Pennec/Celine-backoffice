@@ -21,6 +21,7 @@ const New = () => {
 	const [picture, setPicture] = useState();
 	const [shoplink, setShoplink] = useState('');
 	const [onsale, setOnsale] = useState(false);
+	const [size, setSize] = useState('');
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -33,13 +34,13 @@ const New = () => {
 		formData.append('price', price);
 		formData.append('shoplink', shoplink);
 		formData.append('onsale', onsale);
-
+		formData.append('size', size);
 		formData.append('picture', picture === undefined ? undefined : picture[0]);
 
 		try {
 			const response = await axios.post(
-				'https://squiddy-shop-api.herokuapp.com/annonce',
-				// 'http://localhost:3010/annonce',
+				// 'https://squiddy-shop-api.herokuapp.com/annonce',
+				'http://localhost:3010/annonce',
 				formData
 			);
 			console.log(response);
@@ -54,7 +55,7 @@ const New = () => {
 			console.error(error);
 		}
 	};
-
+	console.log(tags);
 	// Gerer les checkboxes
 	const handleTagClick = (tag) => {
 		// Trouver l'index dans le tableau de tags du tag séléctionné
@@ -118,6 +119,14 @@ const New = () => {
 						type='text'
 						name='colors'
 						onChange={(e) => setColors(e.target.value)}
+					/>
+				</div>
+				<div className='new-inputs-container'>
+					<p>Taille</p>
+					<input
+						type='text'
+						name='size'
+						onChange={(e) => setSize(e.target.value)}
 					/>
 				</div>
 				<div className='new-image-container'>
