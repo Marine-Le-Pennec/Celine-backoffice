@@ -43,8 +43,7 @@ const New = () => {
 				'http://localhost:3010/annonce',
 				formData
 			);
-			console.log(response);
-
+			console.log(response.data);
 			if (response.status === 200) {
 				alert('Nouvelle création ajoutée !');
 				history.push('/');
@@ -55,7 +54,7 @@ const New = () => {
 			console.error(error);
 		}
 	};
-	console.log(tags);
+
 	// Gerer les checkboxes
 	const handleTagClick = (tag) => {
 		// Trouver l'index dans le tableau de tags du tag séléctionné
