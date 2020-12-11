@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Dropzone from 'react-dropzone';
 // css
 import '../assets/css/New.css';
 
@@ -10,7 +11,6 @@ import { useHistory } from 'react-router-dom';
 
 // img
 import borderLeft from '../assets/img/deco_left.png';
-import file from '../assets/img/file.png';
 
 const New = () => {
 	const [title, setTitle] = useState('');
@@ -18,32 +18,39 @@ const New = () => {
 	const [colors, setColors] = useState('');
 	const [price, setPrice] = useState(0);
 	const [tags, setTags] = useState([]);
-	const [picture, setPicture] = useState();
+	const [picture, setPicture] = useState([]);
 	const [shoplink, setShoplink] = useState('');
 	const [onsale, setOnsale] = useState(false);
 	const [size, setSize] = useState('');
-
+	console.log(picture);
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
-		const formData = new FormData();
-		formData.append('title', title);
-		formData.append('tags', tags);
-		formData.append('fabrics', fabrics);
-		formData.append('colors', colors);
-		formData.append('price', price);
-		formData.append('shoplink', shoplink);
-		formData.append('onsale', onsale);
-		formData.append('size', size);
-		formData.append('picture', picture === undefined ? undefined : picture[0]);
+		const formDataPicture = new FormData();
+		formDataPicture.append('pictures', picture);
+
+		const formDataAnnonce = new FormData();
+		formDataAnnonce.append('title', title);
+		formDataAnnonce.append('tags', tags);
+		formDataAnnonce.append('fabrics', fabrics);
+		formDataAnnonce.append('colors', colors);
+		formDataAnnonce.append('shoplink', shoplink);
+		formDataAnnonce.append('onsale', onsale);
+		formDataAnnonce.append('size', size);
+		formDataAnnonce.append('price', price);
 
 		try {
 			const response = await axios.post(
-				'https://squiddy-shop-api.herokuapp.com/annonce',
-				// 'http://localhost:3010/annonce',
-				formData
+				// 'https://squiddy-shop-api.herokuapp.com/annonce',
+				'http://localhost:3010/annonce',
+				formDataAnnonce
 			);
-			console.log(response.data);
+
+			const response2 = await axios.post(
+				`http://localhost:3010/upload/${response._id}`,
+				formDataPicture
+			);
+			console.log(response2);
 			if (response.status === 200) {
 				alert('Nouvelle création ajoutée !');
 				history.push('/');
@@ -131,20 +138,16 @@ const New = () => {
 				<div className='new-image-container'>
 					<p>Image</p>
 
-					<label htmlFor='file-input'>
-						<img src={file} alt='download' />
-					</label>
-
-					<input
-						id='file-input'
-						type='file'
-						accept='.jpg,.png'
-						name='picture'
-						onChange={(e) => setPicture(e.target.files)}
-					/>
-					<div className={picture ? 'download-validation' : 'hide'}>
-						Image ajoutée !
-					</div>
+					<Dropzone onDrop={(acceptedFiles) => setPicture(acceptedFiles)}>
+						{({ getRootProps, getInputProps }) => (
+							<section>
+								<div {...getRootProps()}>
+									<input {...getInputProps()} />
+									<p>Drag 'n' drop some files here, or click to select files</p>
+								</div>
+							</section>
+						)}
+					</Dropzone>
 				</div>
 				<div className='new-tags-section'>
 					<p>Tags</p>
