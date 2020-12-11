@@ -39,8 +39,8 @@ const New = () => {
 
 		try {
 			const response = await axios.post(
-				// 'https://squiddy-shop-api.herokuapp.com/annonce',
-				'http://localhost:3010/annonce',
+				'https://squiddy-shop-api.herokuapp.com/annonce',
+				// 'http://localhost:3010/annonce',
 				formData
 			);
 			console.log(response.data);
@@ -157,7 +157,7 @@ const New = () => {
 									className='checkbox'
 									onChange={(e) => handleTagClick(e.target.value)}
 								/>
-								<label htmlFor='topDown'>Plaid</label>
+								<label htmlFor='Plaid'>Plaid</label>
 							</div>
 							<div className='new-tag-input-container'>
 								<input

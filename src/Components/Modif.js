@@ -45,8 +45,8 @@ const Modif = () => {
 
 		try {
 			const response = await axios.patch(
-				// `https://squiddy-shop-api.herokuapp.com/annonce/${id}`,
-				`http://localhost:3010/annonce/${id}`,
+				`https://squiddy-shop-api.herokuapp.com/annonce/${id}`,
+				// `http://localhost:3010/annonce/${id}`,
 
 				formData
 			);
