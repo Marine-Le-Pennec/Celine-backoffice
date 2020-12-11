@@ -58,7 +58,6 @@ const New = () => {
 			console.error(error);
 		}
 	};
-
 	// Gerer les checkboxes
 	const handleTagClick = (tag) => {
 		// Trouver l'index dans le tableau de tags du tag séléctionné
