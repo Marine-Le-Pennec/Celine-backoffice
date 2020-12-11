@@ -11,6 +11,7 @@ import { useHistory } from 'react-router-dom';
 // img
 import borderLeft from '../assets/img/deco_left.png';
 import file from '../assets/img/file.png';
+import loader from '../assets/img/loader.svg';
 
 const New = () => {
 	const [title, setTitle] = useState('');
@@ -22,6 +23,7 @@ const New = () => {
 	const [shoplink, setShoplink] = useState('');
 	const [onsale, setOnsale] = useState(false);
 	const [size, setSize] = useState('');
+	const [isLoading, setIsLoading] = useState(false);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -36,26 +38,27 @@ const New = () => {
 		formData.append('onsale', onsale);
 		formData.append('size', size);
 		formData.append('picture', picture === undefined ? undefined : picture[0]);
-
+		setIsLoading(true);
 		try {
 			const response = await axios.post(
 				// 'https://squiddy-shop-api.herokuapp.com/annonce',
 				'http://localhost:3010/annonce',
 				formData
 			);
-			console.log(response);
 
 			if (response.status === 200) {
+				setIsLoading(false);
 				alert('Nouvelle création ajoutée !');
 				history.push('/');
 			} else {
+				setIsLoading(false);
 				alert('Veuillez compléter tous les champs');
 			}
 		} catch (error) {
 			console.error(error);
 		}
 	};
-	console.log(tags);
+
 	// Gerer les checkboxes
 	const handleTagClick = (tag) => {
 		// Trouver l'index dans le tableau de tags du tag séléctionné
@@ -84,7 +87,11 @@ const New = () => {
 
 	const history = useHistory();
 
-	return (
+	return isLoading ? (
+		<div className='loader-style'>
+			<img src={loader} alt='loader' />
+		</div>
+	) : (
 		<div className='new-wrapper'>
 			<div className='new-img-decoration-container'>
 				<img src={borderLeft} alt='left border' />

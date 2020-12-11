@@ -21,7 +21,7 @@ const CreaCard = ({ creation }) => {
 			return <img src={creation.picture} alt='miniature' />;
 		}
 	};
-	console.log(creation);
+
 	// Fetch ID
 	const id = creation._id;
 

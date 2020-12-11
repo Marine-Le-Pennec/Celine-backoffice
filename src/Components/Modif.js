@@ -10,6 +10,7 @@ import { useLocation, useHistory } from 'react-router-dom';
 
 // img
 import file from '../assets/img/file.png';
+import loader from '../assets/img/loader.svg';
 
 const Modif = () => {
 	let location = useLocation();
@@ -25,6 +26,7 @@ const Modif = () => {
 	const [shoplink, setShoplink] = useState(creation.shoplink);
 	const [onsale, setOnsale] = useState(creation.onsale);
 	const [size, setSize] = useState('');
+	const [isLoading, setIsLoading] = useState(false);
 
 	let id = creation._id;
 
@@ -42,6 +44,7 @@ const Modif = () => {
 		formData.append('shoplink', shoplink);
 		formData.append('onsale', onsale);
 		formData.append('size', size);
+		setIsLoading(true);
 
 		try {
 			const response = await axios.patch(
@@ -51,10 +54,12 @@ const Modif = () => {
 				formData
 			);
 			if (response.status === 200) {
+				setIsLoading(false);
 				alert('Création modifiée !');
 				history.push('/annonces');
 			}
 		} catch (error) {
+			setIsLoading(false);
 			console.error(error);
 		}
 	};
@@ -95,7 +100,11 @@ const Modif = () => {
 		}
 	};
 
-	return (
+	return isLoading ? (
+		<div className='loader-style'>
+			<img src={loader} alt='loader' />
+		</div>
+	) : (
 		<div className='modif-wrapper'>
 			<div className='modif-img-decoration-container'>{correctPicture()}</div>
 			<form className='modif-inputs-section' onSubmit={handleSubmit}>
