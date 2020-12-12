@@ -18,11 +18,14 @@ const New = () => {
 	const [colors, setColors] = useState('');
 	const [price, setPrice] = useState(0);
 	const [tags, setTags] = useState([]);
+
 	const [picture, setPicture] = useState([]);
+
 	const [shoplink, setShoplink] = useState('');
 	const [onsale, setOnsale] = useState(false);
 	const [size, setSize] = useState('');
-
+	const [isLoading, setIsLoading] = useState(false);
+	console.log(picture);
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
@@ -48,9 +51,10 @@ const New = () => {
 			);
 
 			if (response.status === 200) {
+				setIsLoading(false);
 				alert('Nouvelle création ajoutée !');
 				history.push('/');
-			}
+			} 
 		} catch (error) {
 			console.error(error);
 		}
@@ -84,7 +88,11 @@ const New = () => {
 
 	const history = useHistory();
 
-	return (
+	return isLoading ? (
+		<div className='loader-style'>
+			<img src={loader} alt='loader' />
+		</div>
+	) : (
 		<div className='new-wrapper'>
 			<div className='new-img-decoration-container'>
 				<img src={borderLeft} alt='left border' />
@@ -132,6 +140,7 @@ const New = () => {
 				<div className='new-image-container'>
 					<p>Image</p>
 
+
 					<Dropzone onDrop={(acceptedFiles) => setPicture(acceptedFiles)}>
 						{({ getRootProps, getInputProps }) => (
 							<section>
@@ -142,6 +151,8 @@ const New = () => {
 							</section>
 						)}
 					</Dropzone>
+
+					
 				</div>
 				<div className='new-tags-section'>
 					<p>Tags</p>
