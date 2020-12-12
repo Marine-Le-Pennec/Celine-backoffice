@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Dropzone from 'react-dropzone';
 // css
 import '../assets/css/New.css';
 
@@ -10,8 +11,6 @@ import { useHistory } from 'react-router-dom';
 
 // img
 import borderLeft from '../assets/img/deco_left.png';
-import file from '../assets/img/file.png';
-import loader from '../assets/img/loader.svg';
 
 const New = () => {
 	const [title, setTitle] = useState('');
@@ -19,7 +18,9 @@ const New = () => {
 	const [colors, setColors] = useState('');
 	const [price, setPrice] = useState(0);
 	const [tags, setTags] = useState([]);
-	const [picture, setPicture] = useState({});
+
+	const [picture, setPicture] = useState([]);
+
 	const [shoplink, setShoplink] = useState('');
 	const [onsale, setOnsale] = useState(false);
 	const [size, setSize] = useState('');
@@ -33,12 +34,15 @@ const New = () => {
 		formData.append('tags', tags);
 		formData.append('fabrics', fabrics);
 		formData.append('colors', colors);
-		formData.append('price', price);
 		formData.append('shoplink', shoplink);
 		formData.append('onsale', onsale);
 		formData.append('size', size);
-		formData.append('picture', picture === undefined ? undefined : picture);
-		setIsLoading(true);
+		formData.append('price', price);
+
+		for (let file of picture) {
+			formData.append('picture', file);
+		}
+
 		try {
 			const response = await axios.post(
 				// 'https://squiddy-shop-api.herokuapp.com/annonce',
@@ -50,14 +54,12 @@ const New = () => {
 				setIsLoading(false);
 				alert('Nouvelle création ajoutée !');
 				history.push('/');
-			} else {
-				setIsLoading(false);
-				alert('Veuillez compléter tous les champs');
-			}
+			} 
 		} catch (error) {
 			console.error(error);
 		}
 	};
+
 	// Gerer les checkboxes
 	const handleTagClick = (tag) => {
 		// Trouver l'index dans le tableau de tags du tag séléctionné
@@ -138,20 +140,19 @@ const New = () => {
 				<div className='new-image-container'>
 					<p>Image</p>
 
-					<label htmlFor='file-input'>
-						<img src={file} alt='download' />
-					</label>
 
-					<input
-						id='file-input'
-						type='file'
-						accept='.jpg,.png'
-						name='picture'
-						onChange={(e) => setPicture(e.target.files[0])}
-					/>
-					<div className={picture ? 'download-validation' : 'hide'}>
-						Image ajoutée !
-					</div>
+					<Dropzone onDrop={(acceptedFiles) => setPicture(acceptedFiles)}>
+						{({ getRootProps, getInputProps }) => (
+							<section>
+								<div {...getRootProps()}>
+									<input {...getInputProps()} />
+									<p>Drag 'n' drop some files here, or click to select files</p>
+								</div>
+							</section>
+						)}
+					</Dropzone>
+
+					
 				</div>
 				<div className='new-tags-section'>
 					<p>Tags</p>
@@ -164,7 +165,7 @@ const New = () => {
 									className='checkbox'
 									onChange={(e) => handleTagClick(e.target.value)}
 								/>
-								<label htmlFor='topDown'>Plaid</label>
+								<label htmlFor='Plaid'>Plaid</label>
 							</div>
 							<div className='new-tag-input-container'>
 								<input

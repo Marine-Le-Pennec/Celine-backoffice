@@ -26,10 +26,9 @@ const All = () => {
 			alert('An error occurred');
 		}
 	};
-
 	useEffect(() => {
 		fetchData();
-	}, [creations]);
+	}, []);
 
 	return isLoading ? (
 		<div>...Chargement</div>
