@@ -37,7 +37,8 @@ const New = () => {
 		formData.append('shoplink', shoplink);
 		formData.append('onsale', onsale);
 		formData.append('size', size);
-		formData.append('picture', picture === undefined ? undefined : picture);
+		formData.append('picture', picture);
+
 		setIsLoading(true);
 		try {
 			const response = await axios.post(
@@ -45,7 +46,7 @@ const New = () => {
 				'http://localhost:3010/annonce',
 				formData
 			);
-
+			console.log(response);
 			if (response.status === 200) {
 				setIsLoading(false);
 				alert('Nouvelle création ajoutée !');
@@ -135,6 +136,22 @@ const New = () => {
 						onChange={(e) => setSize(e.target.value)}
 					/>
 				</div>
+				{/* <input
+					type='file'
+					name='filefield'
+					multiple
+					accept='.jpg,.png'
+					onChange={(e) => {
+						let newObj = { ...picture };
+						for (let i = 0; i < e.target.files.length; i++) {
+							for (let value of e.target.files) {
+								newObj[i] = value;
+							}
+						}
+
+						setPicture(newObj);
+					}}
+				/> */}
 				<div className='new-image-container'>
 					<p>Image</p>
 
