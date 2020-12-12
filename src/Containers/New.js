@@ -22,40 +22,34 @@ const New = () => {
 	const [shoplink, setShoplink] = useState('');
 	const [onsale, setOnsale] = useState(false);
 	const [size, setSize] = useState('');
-	console.log(picture);
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
-		const formDataPicture = new FormData();
-		formDataPicture.append('pictures', picture);
+		const formData = new FormData();
+		formData.append('title', title);
+		formData.append('tags', tags);
+		formData.append('fabrics', fabrics);
+		formData.append('colors', colors);
+		formData.append('shoplink', shoplink);
+		formData.append('onsale', onsale);
+		formData.append('size', size);
+		formData.append('price', price);
 
-		const formDataAnnonce = new FormData();
-		formDataAnnonce.append('title', title);
-		formDataAnnonce.append('tags', tags);
-		formDataAnnonce.append('fabrics', fabrics);
-		formDataAnnonce.append('colors', colors);
-		formDataAnnonce.append('shoplink', shoplink);
-		formDataAnnonce.append('onsale', onsale);
-		formDataAnnonce.append('size', size);
-		formDataAnnonce.append('price', price);
+		for (let file of picture) {
+			formData.append('picture', file);
+		}
 
 		try {
 			const response = await axios.post(
 				// 'https://squiddy-shop-api.herokuapp.com/annonce',
 				'http://localhost:3010/annonce',
-				formDataAnnonce
+				formData
 			);
 
-			const response2 = await axios.post(
-				`http://localhost:3010/upload/${response._id}`,
-				formDataPicture
-			);
-			console.log(response2);
 			if (response.status === 200) {
 				alert('Nouvelle création ajoutée !');
 				history.push('/');
-			} else {
-				alert('Veuillez compléter tous les champs');
 			}
 		} catch (error) {
 			console.error(error);
