@@ -19,12 +19,12 @@ const New = () => {
 	const [colors, setColors] = useState('');
 	const [price, setPrice] = useState(0);
 	const [tags, setTags] = useState([]);
-	const [picture, setPicture] = useState();
+	const [picture, setPicture] = useState({});
 	const [shoplink, setShoplink] = useState('');
 	const [onsale, setOnsale] = useState(false);
 	const [size, setSize] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
-
+	console.log(picture);
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
@@ -37,7 +37,7 @@ const New = () => {
 		formData.append('shoplink', shoplink);
 		formData.append('onsale', onsale);
 		formData.append('size', size);
-		formData.append('picture', picture === undefined ? undefined : picture[0]);
+		formData.append('picture', picture === undefined ? undefined : picture);
 		setIsLoading(true);
 		try {
 			const response = await axios.post(
@@ -147,7 +147,7 @@ const New = () => {
 						type='file'
 						accept='.jpg,.png'
 						name='picture'
-						onChange={(e) => setPicture(e.target.files)}
+						onChange={(e) => setPicture(e.target.files[0])}
 					/>
 					<div className={picture ? 'download-validation' : 'hide'}>
 						Image ajoutée !
