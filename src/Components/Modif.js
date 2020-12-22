@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 // css
 import '../assets/css/Modif.css';
 
+import Dropzone from 'react-dropzone';
+
 // Axios
 import axios from 'axios';
 
@@ -9,20 +11,20 @@ import axios from 'axios';
 import { useLocation, useHistory } from 'react-router-dom';
 
 // img
-import file from '../assets/img/file.png';
 import loader from '../assets/img/loader.svg';
 
 const Modif = () => {
 	let location = useLocation();
 
 	let creation = location.state.creation;
+	console.log(creation.picture);
 
 	const [title, setTitle] = useState(creation.title);
 	const [fabrics, setFabrics] = useState(creation.fabrics);
 	const [colors, setColors] = useState(creation.colors);
 	const [price, setPrice] = useState(creation.price);
 	const [tags, setTags] = useState(creation.tags);
-	const [picture, setPicture] = useState(creation.picture);
+	const [picture, setPicture] = useState([]);
 	const [shoplink, setShoplink] = useState(creation.shoplink);
 	const [onsale, setOnsale] = useState(creation.onsale);
 	const [size, setSize] = useState('');
@@ -34,25 +36,27 @@ const Modif = () => {
 		e.preventDefault();
 
 		const formData = new FormData();
-
 		formData.append('title', title);
 		formData.append('tags', tags);
 		formData.append('fabrics', fabrics);
 		formData.append('colors', colors);
 		formData.append('price', price);
-		formData.append('picture', picture[0] && picture[0]);
 		formData.append('shoplink', shoplink);
 		formData.append('onsale', onsale);
 		formData.append('size', size);
+		for (let file of picture) {
+			formData.append('picture', file);
+		}
 		setIsLoading(true);
 
 		try {
 			const response = await axios.patch(
-				`https://squiddy-shop-api.herokuapp.com/annonce/${id}`,
-				// `http://localhost:3010/annonce/${id}`,
+				// `https://squiddy-shop-api.herokuapp.com/annonce/${id}`,
+				`http://localhost:3010/annonce/${id}`,
 
 				formData
 			);
+
 			if (response.status === 200) {
 				setIsLoading(false);
 				alert('Création modifiée !');
@@ -152,24 +156,23 @@ const Modif = () => {
 						onChange={(e) => setSize(e.target.value)}
 					/>
 				</div>
-				<div className='modif-image-container'>
-					<p>Image</p>
-
-					<label htmlFor='file-input'>
-						<img src={file} alt='download' />
-					</label>
-
-					<input
-						id='file-input'
-						type='file'
-						accept='.jpg,.png'
-						name='picture'
-						onChange={(e) => setPicture(e.target.files)}
-					/>
-					<div className={picture[0] ? 'download-validation' : 'hide'}>
-						Image changée !
-					</div>
-				</div>
+				<Dropzone onDrop={(acceptedFiles) => setPicture(acceptedFiles)}>
+					{({ getRootProps, getInputProps }) => (
+						<section className='dropzone-wrapper'>
+							<div {...getRootProps()}>
+								<input {...getInputProps()} />
+								<p>Drag 'n' drop some files here, or click to select files</p>
+								{picture.map((file) => {
+									return (
+										<li key={file.path}>
+											{file.path} - {file.size} bytes
+										</li>
+									);
+								})}
+							</div>
+						</section>
+					)}
+				</Dropzone>
 				<div className='modif-tags-section'>
 					<div className='modif-tags-container'>
 						<div className='modif-tags-column'>

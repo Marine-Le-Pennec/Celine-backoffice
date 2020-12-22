@@ -18,8 +18,10 @@ const All = () => {
 	const fetchData = async () => {
 		try {
 			const response = await axios.get(
-				'https://squiddy-shop-api.herokuapp.com/annonces'
+				// 'https://squiddy-shop-api.herokuapp.com/annonces'
+				'http://localhost:3010/annonces'
 			);
+			console.log(response.data);
 			setCreations(response.data);
 			setIsLoading(false);
 		} catch (e) {

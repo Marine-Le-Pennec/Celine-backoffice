@@ -15,12 +15,11 @@ const CreaCard = ({ creation }) => {
 	// Fetch picture
 
 	const correctPicture = () => {
-		if (creation.picture) {
+		if (creation.picture[0]) {
+			return <img src={creation.picture[0].secure_url} alt={creation.title} />;
+		} else {
 			return <img src={creation.picture.secure_url} alt={creation.title} />;
 		}
-		// else {
-		// 	return <img src={creation.picture} alt='miniature' />;
-		// }
 	};
 
 	// Fetch ID
