@@ -7,7 +7,6 @@ import axios from 'axios';
 
 // Composants
 import CreaCard from '../Components/CreaCard';
-import Search from '../Components/Search';
 
 const All = () => {
 	// States
@@ -39,7 +38,6 @@ const All = () => {
 			<header>
 				<h1>Toutes mes créations</h1>
 				<div className='separator'></div>
-				<Search />
 			</header>
 			<main className='cards-main-container'>
 				{creations.map((creation, index) => {

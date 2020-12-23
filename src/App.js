@@ -13,8 +13,13 @@ import Modif from './Components/Modif';
 
 // Icones
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faEye, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-library.add(faEye, faTrashAlt);
+import {
+	faEye,
+	faTrashAlt,
+	faTimes,
+	faCheckCircle,
+} from '@fortawesome/free-solid-svg-icons';
+library.add(faEye, faTrashAlt, faTimes, faCheckCircle);
 
 function App() {
 	return (

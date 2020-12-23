@@ -4,18 +4,27 @@
 	background: rgba(255, 184, 0, 0.27);
 	display: flex;
 	flex-direction: column;
+	position: relative;
 }
 
 .new-header {
 	height: 10%;
 	background: #22217a;
-	color: white;
+	/* flex */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.new-header h2 {
+	font-size: 3.5rem;
+	font-weight: bolder;
+	color: #ffd000;
 }
 
 .new-form {
 	height: 80%;
 	width: 100%;
-	position: relative;
 	/* flex */
 	display: flex;
 }
@@ -39,14 +48,39 @@
 	align-items: center;
 	justify-content: space-around;
 }
+
+.image-picker-container {
+	width: 70%;
+}
+
+.image-picker-container h4 {
+	font-size: 1.8em;
+	font-weight: bolder;
+	color: #00000081;
+}
+.container {
+	margin-top: 3%;
+	width: 100%;
+	border: #22217a dotted 2px;
+	color: #22217a;
+	font-size: 1.2rem;
+	font-weight: bold;
+}
+
 .new-left-section-input {
 	flex: 1;
-	font-size: 1.5em;
+	font-size: 1.8em;
+	font-weight: bolder;
+	color: #00000081;
 }
 .new-left-section-input input {
-	background: #c0a4fc;
+	margin-top: 3%;
+	background: #8e5cfa;
 	border-radius: 10px;
-	height: 30px;
+	height: 3rem;
+	width: 16rem;
+	color: #fffd76;
+	font-size: 1.5rem;
 }
 
 .dropzone-wrapper {
@@ -71,12 +105,21 @@
 	align-items: center;
 	justify-content: center;
 }
+
+.tags-section h4 {
+	font-size: 1.8em;
+	font-weight: bolder;
+	color: #00000081;
+}
 .tags-wrapper {
+	margin-top: 2%;
 	width: 70%;
 	height: 311px;
-	background: #c0a4fc;
+	background: #8e5cfa;
 	box-shadow: 0px 4px 4px 3px rgba(0, 0, 0, 0.25);
 	border-radius: 20px;
+	padding-left: 6%;
+	box-sizing: border-box;
 	/* flex */
 	display: flex;
 }
@@ -86,23 +129,71 @@
 	height: 100%;
 	display: flex;
 	flex-direction: column;
-	align-items: start;
+	align-items: flex-start;
 	justify-content: space-around;
 }
-
+.tag-container {
+	width: 100%;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
 .checkbox {
 	height: 20px;
 	width: 20px;
 	border-style: none;
+	margin-right: 4px;
+}
+
+.tag-container label {
+	font-size: 1.2rem;
+	text-align: start;
+	margin-left: 4px;
+	color: #fffd76;
+	font-weight: bolder;
+}
+
+.onsale-section div input {
+	margin-top: 3%;
+	background: #8e5cfa;
+	border-radius: 10px;
+	height: 3rem;
+	width: 16rem;
+	color: #fffd76;
+	font-size: 1.5rem;
+}
+.onsale-section div input::placeholder {
+	color: #fffd76;
+	font-size: 1rem;
+}
+
+.onsale-section h4 {
+	font-size: 1.8em;
+	font-weight: bolder;
+	color: #00000081;
 }
 
 .validation {
 	position: absolute;
-	bottom: 0;
+	bottom: 1%;
+	right: 50%;
+	/* flex */
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
 }
 
-.onsale-section div input {
-	background: #c0a4fc;
-	border-radius: 10px;
-	height: 30px;
+.validation-button {
+	border: #22217a solid 3px;
+	font-size: 3rem;
+	border-style: none;
+	background-color: transparent;
+	text-align: center;
+}
+
+.validation p {
+	font-size: 1.8em;
+	font-weight: bolder;
+	color: #00000081;
 }
