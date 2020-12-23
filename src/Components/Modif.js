@@ -17,14 +17,13 @@ const Modif = () => {
 	let location = useLocation();
 
 	let creation = location.state.creation;
-	console.log(creation.picture);
 
 	const [title, setTitle] = useState(creation.title);
 	const [fabrics, setFabrics] = useState(creation.fabrics);
 	const [colors, setColors] = useState(creation.colors);
 	const [price, setPrice] = useState(creation.price);
 	const [tags, setTags] = useState(creation.tags);
-	const [picture, setPicture] = useState([]);
+	const [pictures, setPictures] = useState([]);
 	const [shoplink, setShoplink] = useState(creation.shoplink);
 	const [onsale, setOnsale] = useState(creation.onsale);
 	const [size, setSize] = useState('');
@@ -44,7 +43,7 @@ const Modif = () => {
 		formData.append('shoplink', shoplink);
 		formData.append('onsale', onsale);
 		formData.append('size', size);
-		for (let file of picture) {
+		for (let file of pictures) {
 			formData.append('picture', file);
 		}
 		setIsLoading(true);
@@ -96,21 +95,12 @@ const Modif = () => {
 		}
 	};
 
-	const correctPicture = () => {
-		if (creation.picture.secure_url) {
-			return <img src={creation.picture.secure_url} alt='miniature' />;
-		} else {
-			return <img src={creation.picture} alt='miniature' />;
-		}
-	};
-
 	return isLoading ? (
 		<div className='loader-style'>
 			<img src={loader} alt='loader' />
 		</div>
 	) : (
 		<div className='modif-wrapper'>
-			<div className='modif-img-decoration-container'>{correctPicture()}</div>
 			<form className='modif-inputs-section' onSubmit={handleSubmit}>
 				<div className='modif-inputs-container'>
 					<p>Titre</p>
@@ -156,13 +146,13 @@ const Modif = () => {
 						onChange={(e) => setSize(e.target.value)}
 					/>
 				</div>
-				<Dropzone onDrop={(acceptedFiles) => setPicture(acceptedFiles)}>
+				<Dropzone onDrop={(acceptedFiles) => setPictures(acceptedFiles)}>
 					{({ getRootProps, getInputProps }) => (
 						<section className='dropzone-wrapper'>
 							<div {...getRootProps()}>
 								<input {...getInputProps()} />
 								<p>Drag 'n' drop some files here, or click to select files</p>
-								{picture.map((file) => {
+								{pictures.map((file) => {
 									return (
 										<li key={file.path}>
 											{file.path} - {file.size} bytes

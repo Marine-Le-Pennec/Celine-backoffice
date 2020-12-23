@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import Dropzone from 'react-dropzone';
-
 // css
 import '../assets/css/New.css';
 
@@ -13,6 +11,12 @@ import { useHistory } from 'react-router-dom';
 // img
 import loader from '../assets/img/loader.svg';
 
+// Composants
+import Preview from '../Components/Preview';
+
+// Fontawesome
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 const New = () => {
 	const [title, setTitle] = useState('');
 	const [fabrics, setFabrics] = useState('');
@@ -22,7 +26,7 @@ const New = () => {
 	const [shoplink, setShoplink] = useState('');
 	const [onsale, setOnsale] = useState(false);
 	const [size, setSize] = useState('');
-	const [picture, setPicture] = useState([]);
+	const [pictures, setPictures] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
 
 	const handleSubmit = async (e) => {
@@ -38,7 +42,7 @@ const New = () => {
 		formData.append('size', size);
 		formData.append('price', price);
 
-		for (let file of picture) {
+		for (let file of pictures) {
 			formData.append('picture', file);
 		}
 		setIsLoading(true);
@@ -86,8 +90,6 @@ const New = () => {
 			setShoplink('');
 		}
 	};
-
-	// DropZone
 
 	const history = useHistory();
 
@@ -137,7 +139,7 @@ const New = () => {
 						/>
 					</div>
 					<div className='new-left-section-input'>
-						<p>Taille</p>
+						<p>Dimensions</p>
 						<input
 							type='text'
 							name='size'
@@ -146,33 +148,15 @@ const New = () => {
 					</div>
 				</section>
 				<section className='new-right-section'>
-					<div className=''>
-						<p>Image</p>
-						<Dropzone onDrop={(acceptedFiles) => setPicture(acceptedFiles)}>
-							{({ getRootProps, getInputProps }) => (
-								<section className='dropzone-wrapper'>
-									<div {...getRootProps()}>
-										<input {...getInputProps()} />
-										<p>
-											Drag 'n' drop some files here, or click to select files
-										</p>
-										{picture.map((file) => {
-											return (
-												<li key={file.path}>
-													{file.path} - {file.size} bytes
-												</li>
-											);
-										})}
-									</div>
-								</section>
-							)}
-						</Dropzone>
+					<div className='image-picker-container'>
+						<h4>Photos </h4>
+						<Preview pictures={pictures} setPictures={setPictures} />
 					</div>
 					<div className='tags-section'>
-						<p>Tags</p>
+						<h4>Tags</h4>
 						<div className='tags-wrapper'>
 							<div className='tags-column'>
-								<div className=''>
+								<div className='tag-container'>
 									<input
 										type='checkbox'
 										value='Plaid'
@@ -181,7 +165,7 @@ const New = () => {
 									/>
 									<label htmlFor='Plaid'>Plaid</label>
 								</div>
-								<div className=''>
+								<div className='tag-container'>
 									<input
 										type='checkbox'
 										value='Echarpe'
@@ -190,7 +174,7 @@ const New = () => {
 									/>
 									<label htmlFor='echarpe'>Écharpe</label>
 								</div>
-								<div className=''>
+								<div className='tag-container'>
 									<input
 										type='checkbox'
 										value='Gants'
@@ -201,7 +185,7 @@ const New = () => {
 								</div>
 							</div>
 							<div className='tags-column'>
-								<div className=''>
+								<div className='tag-container'>
 									<input
 										type='checkbox'
 										value='Chale'
@@ -210,7 +194,7 @@ const New = () => {
 									/>
 									<label htmlFor='chale'>Châle</label>
 								</div>
-								<div className=''>
+								<div className='tag-container'>
 									<input
 										type='checkbox'
 										value='Bonnet'
@@ -219,7 +203,7 @@ const New = () => {
 									/>
 									<label htmlFor='bonnet'>Bonnet</label>
 								</div>
-								<div className=''>
+								<div className='tag-container'>
 									<input
 										type='checkbox'
 										value='Chaussettes'
@@ -230,7 +214,7 @@ const New = () => {
 								</div>
 							</div>
 							<div className='tags-column'>
-								<div className=''>
+								<div className='tag-container'>
 									<input
 										type='checkbox'
 										value='Peluche'
@@ -239,7 +223,7 @@ const New = () => {
 									/>
 									<label htmlFor='peluche'>Peluche</label>
 								</div>
-								<div className=''>
+								<div className='tag-container'>
 									<input
 										type='checkbox'
 										value='Fetes'
@@ -248,7 +232,7 @@ const New = () => {
 									/>
 									<label htmlFor='fetes'>Fêtes</label>
 								</div>
-								<div className=''>
+								<div className='tag-container'>
 									<input
 										type='checkbox'
 										value='LGBT'
@@ -261,7 +245,7 @@ const New = () => {
 						</div>
 					</div>
 					<section className='onsale-section'>
-						<p>À vendre ?</p>
+						<h4>À vendre ?</h4>
 						<input
 							type='checkbox'
 							checked={onsale}
@@ -271,7 +255,7 @@ const New = () => {
 						<div>
 							{onsale && (
 								<input
-									placeholder='Adresse de la page Etsy'
+									placeholder='Lien vers la page de vente'
 									onChange={(e) => setShoplink(e.target.value)}
 								/>
 							)}
@@ -279,7 +263,10 @@ const New = () => {
 					</section>
 				</section>
 				<div className='validation'>
-					<button type='submit'>Valider</button>
+					<button type='submit' className='validation-button'>
+						<FontAwesomeIcon icon='check-circle' size='lg' color='#8e5cfa' />
+					</button>
+					<p>Valider</p>
 				</div>
 			</form>
 		</div>
