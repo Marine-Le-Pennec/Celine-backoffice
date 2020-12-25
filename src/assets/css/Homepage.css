@@ -1,11 +1,14 @@
 .homepage-wrapper {
+	height: 100%;
 	width: 100%;
 	display: flex;
 	justify-content: space-around;
+	background: rgba(255, 184, 0, 0.33);
 }
 
 .homepage-border-deco-container img {
 	height: 100%;
+	z-index: 1;
 }
 
 .homepage-center-container {
@@ -17,38 +20,59 @@
 	align-items: center;
 	justify-content: space-evenly;
 }
+
 .homepage-center-container img {
 	height: 40%;
 }
 
+.page-links-container {
+	width: 50%;
+	height: 372px;
+	background: #22217a;
+	border-radius: 150px 0px;
+	position: relative;
+}
+
 .homepage-new-button {
-	width: 30%;
-	height: 100px;
-	border-radius: 10px;
-	background: rgba(0, 184, 62, 0.5);
-	box-shadow: 0px 5px 4px 3px rgba(0, 0, 0, 0.25);
-	font-size: 2em;
-	color: #022f38;
-	text-decoration: none;
-	/* flex */
-	display: flex;
-	justify-content: center;
+	height: 230px;
+	width: 230px;
+	position: absolute;
+	top: 6%;
+	right: 6%;
+	background-color: orange;
+	border-radius: 50%;
+	display: inline-flex;
 	align-items: center;
+	justify-content: center;
+	text-decoration-line: none;
+}
+
+.homepage-new-button h2 {
+	font-weight: 600;
+	font-size: 33px;
+	line-height: 39px;
+	color: #ffffff;
 }
 
 .homepage-all-button {
-	width: 30%;
-	height: 100px;
-	border-radius: 10px;
-	background: rgba(255, 245, 0, 0.5);
-	box-shadow: 0px 5px 4px 3px rgba(0, 0, 0, 0.25);
-	font-size: 2em;
-	color: #8e5500;
-	text-decoration: none;
-	/* flex */
-	display: flex;
-	justify-content: center;
+	height: 230px;
+	width: 230px;
+	position: absolute;
+	bottom: 6%;
+	left: 6%;
+	background: rgba(0, 209, 255, 0.75);
+	border-radius: 50%;
+	display: inline-flex;
 	align-items: center;
+	justify-content: center;
+	text-decoration-line: none;
+}
+
+.homepage-all-button h2 {
+	font-weight: 600;
+	font-size: 33px;
+	line-height: 39px;
+	color: #ffffff;
 }
 
 .homepage-new-button:hover,

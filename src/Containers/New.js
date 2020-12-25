@@ -28,7 +28,7 @@ const New = () => {
 	const [size, setSize] = useState('');
 	const [pictures, setPictures] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
-
+	console.log(pictures);
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
