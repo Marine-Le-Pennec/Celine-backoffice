@@ -18,12 +18,20 @@ const Homepage = () => {
 			</div>
 			<div className='homepage-center-container'>
 				<img src={logo} alt='squiddy' />
-				<Link to='/new' className='homepage-new-button'>
-					<p>Nouvelle annonce</p>
-				</Link>
-				<Link to='/annonces' className='homepage-all-button'>
-					<p>Mes créations</p>
-				</Link>
+				<section className='page-links-container'>
+					<Link to='/new' className='homepage-new-button'>
+						<h2>
+							Nouvelle
+							<br />
+							création{' '}
+						</h2>
+					</Link>
+					<Link to='/annonces' className='homepage-all-button'>
+						<h2>
+							Mes <br /> créations{' '}
+						</h2>
+					</Link>
+				</section>
 			</div>
 			<div className='homepage-border-deco-container'>
 				<img src={decoRight} alt='décoration' />

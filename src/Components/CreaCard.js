@@ -36,7 +36,8 @@ const CreaCard = ({ creation }) => {
 			let r = window.confirm('Souhaitez-vous supprimer cette création ?');
 			if (r === true) {
 				await axios.delete(
-					`https://squiddy-shop-api.herokuapp.com/annonce/${id}`
+					// `https://squiddy-shop-api.herokuapp.com/annonce/${id}`
+					`http://localhost:3010/annonce/${id}`
 				);
 				alert('Création supprimée !');
 			}

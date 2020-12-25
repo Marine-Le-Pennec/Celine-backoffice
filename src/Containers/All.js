@@ -20,7 +20,7 @@ const All = () => {
 				// 'https://squiddy-shop-api.herokuapp.com/annonces'
 				'http://localhost:3010/annonces'
 			);
-			console.log(response.data);
+
 			setCreations(response.data);
 			setIsLoading(false);
 		} catch (e) {
@@ -29,7 +29,7 @@ const All = () => {
 	};
 	useEffect(() => {
 		fetchData();
-	}, []);
+	}, [creations]);
 
 	return isLoading ? (
 		<div>...Chargement</div>
