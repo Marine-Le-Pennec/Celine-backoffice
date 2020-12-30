@@ -49,8 +49,8 @@ const New = () => {
 
 		try {
 			const response = await axios.post(
-				// 'https://squiddy-shop-api.herokuapp.com/annonce',
-				'http://localhost:3010/annonce',
+				'https://squiddy-shop-api.herokuapp.com/annonce',
+				// 'http://localhost:3010/annonce',
 				formData
 			);
 

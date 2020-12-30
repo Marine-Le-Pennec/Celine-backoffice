@@ -50,7 +50,6 @@ const Preview = ({
 	currentPictures,
 	setCurrentPictures,
 }) => {
-	console.log('current : ', currentPictures);
 	const { getRootProps, getInputProps } = useDropzone({
 		accept: 'image/*',
 		maxFiles: 5,
@@ -87,24 +86,44 @@ const Preview = ({
 		</div>
 	));
 
-	const currentThumbs = currentPictures.map((file, index) => (
-		<div style={thumb} key={file.name}>
-			<div style={thumbInner}>
-				<img src={file.secure_url} style={img} alt='thumbnail' />
-			</div>
-			<button
-				style={deleteButton}
-				type='button'
-				onClick={() => {
-					const newCurrentPictures = [...currentPictures];
-					newCurrentPictures.splice(index, 1);
-					setCurrentPictures(newCurrentPictures);
-				}}>
-				<FontAwesomeIcon icon='times' color='yellow' size='lg' />
-			</button>
-		</div>
-	));
-
+	// const currentThumbs = currentPictures.map((file, index) => (
+	// 	<div style={thumb} key={file.name}>
+	// 		<div style={thumbInner}>
+	// 			<img src={file.secure_url} style={img} alt='thumbnail' />
+	// 		</div>
+	// 		<button
+	// 			style={deleteButton}
+	// 			type='button'
+	// 			onClick={() => {
+	// 				const newCurrentPictures = [...currentPictures];
+	// 				newCurrentPictures.splice(index, 1);
+	// 				setCurrentPictures(newCurrentPictures);
+	// 			}}>
+	// 			<FontAwesomeIcon icon='times' color='yellow' size='lg' />
+	// 		</button>
+	// 	</div>
+	// ));
+	const currentThumbs = () => {
+		if (currentPictures) {
+			return currentPictures.map((file, index) => (
+				<div style={thumb} key={file.name}>
+					<div style={thumbInner}>
+						<img src={file.secure_url} style={img} alt='thumbnail' />
+					</div>
+					<button
+						style={deleteButton}
+						type='button'
+						onClick={() => {
+							const newCurrentPictures = [...currentPictures];
+							newCurrentPictures.splice(index, 1);
+							setCurrentPictures(newCurrentPictures);
+						}}>
+						<FontAwesomeIcon icon='times' color='yellow' size='lg' />
+					</button>
+				</div>
+			));
+		}
+	};
 	useEffect(
 		() => () => {
 			// Make sure to revoke the data uris to avoid memory leaks
@@ -121,7 +140,7 @@ const Preview = ({
 			</div>
 			<aside style={thumbsContainer}>
 				{thumbs}
-				{currentThumbs}
+				{currentThumbs()}
 			</aside>
 		</section>
 	);

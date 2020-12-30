@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 // css
 import '../assets/css/CreaCard.css';
 
@@ -11,88 +11,59 @@ import { Link } from 'react-router-dom';
 // Fontawesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const CreaCard = ({ creation }) => {
+const CreaCard = ({ creation, setRequestData }) => {
 	// Fetch picture
-
-	const correctPicture = () => {
-		if (creation.picture[0]) {
-			return <img src={creation.picture[0].secure_url} alt={creation.title} />;
-		} else {
-			return <img src={creation.picture.secure_url} alt={creation.title} />;
-		}
-	};
 
 	// Fetch ID
 	const id = creation._id;
 
 	// Translate the UTC date for a more readeable date
-	const date = new Date(creation.created).toLocaleDateString();
+	// const date = new Date(creation.created).toLocaleDateString();
 
 	// Delete crea
-
-	const HandleDelete = async (event) => {
+	const HandleDelete = async () => {
 		try {
-			event.preventDefault();
 			let r = window.confirm('Souhaitez-vous supprimer cette création ?');
 			if (r === true) {
 				await axios.delete(
-					// `https://squiddy-shop-api.herokuapp.com/annonce/${id}`
-					`http://localhost:3010/annonce/${id}`
+					`https://squiddy-shop-api.herokuapp.com/annonce/${id}`
+					// `http://localhost:3010/annonce/${id}`
 				);
 				alert('Création supprimée !');
+				// pour le rafraichissement lors du delete
+				setRequestData(new Date());
 			}
 		} catch (error) {
 			console.log(error);
 		}
 	};
 
-	useEffect(() => {
-		const HandleDelete = async (event) => {
-			try {
-				event.preventDefault();
-				let r = window.confirm('Souhaitez-vous supprimer cette création ?');
-				if (r === true) {
-					await axios.delete(
-						`https://squiddy-shop-api.herokuapp.com/annonce/${id}`
-					);
-					alert('Création supprimée !');
-				}
-			} catch (error) {
-				console.log(error);
-			}
-		};
-		return () => {
-			HandleDelete();
-		};
-	}, [id]);
-
 	return (
 		<div className='card-wrapper'>
-			<div className='card-image-container'>{correctPicture()}</div>
-			<div className='card-info-resume-container'>
-				<p className='card-title'>{creation.title}</p>
-				<p className='card-price'>{creation.price} €</p>
-				<p className='card-date'>{date}</p>
-				<div className='card-icons-container'>
+			<section className='thumbnail-container'>
+				<img src={creation.picture[0].secure_url} alt='thumbnail' />
+			</section>
+			<section className='card-infos-container'>
+				<h4>{creation.title}</h4>
+				<div className='card-infos-actions'>
 					<Link
 						className='Link'
-						style={{ color: '#A8AA51' }}
+						style={{ color: '#00D1FF' }}
 						to={{
 							pathname: `/modif/${id}`,
 							state: { creation },
 						}}>
 						<FontAwesomeIcon icon='eye' size='2x' className='hover' />
 					</Link>
-				</div>
-				<div className='card-icons-container'>
+
 					<button
 						className='delete-button'
-						style={{ color: '#7E0A0A' }}
+						style={{ color: '#FF9B25' }}
 						onClick={HandleDelete}>
 						<FontAwesomeIcon icon='trash-alt' size='2x' className='hover' />
 					</button>
 				</div>
-			</div>
+			</section>
 		</div>
 	);
 };
