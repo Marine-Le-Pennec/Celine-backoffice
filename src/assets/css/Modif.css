@@ -1,5 +1,4 @@
 .modif-wrapper {
-	height: 100%;
 	width: 100%;
 	/* flex */
 	display: flex;
@@ -148,4 +147,18 @@ input::placeholder {
 
 .onsale-checkbox {
 	height: 15%;
+}
+
+@media screen and (max-width: 1091px) {
+	.modif-form {
+		flex-direction: column;
+	}
+	.tags-wrapper {
+		padding-left: 0;
+		flex-direction: column;
+	}
+
+	.validation {
+		position: initial;
+	}
 }
