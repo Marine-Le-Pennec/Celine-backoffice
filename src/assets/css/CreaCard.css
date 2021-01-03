@@ -3,6 +3,7 @@
 	width: 20rem;
 	opacity: 80%;
 	border-radius: 10%;
+	padding: 2%;
 }
 
 .card-wrapper:hover {
